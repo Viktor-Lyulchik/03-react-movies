@@ -11,28 +11,14 @@ import MovieModal from '../MovieModal/MovieModal';
 
 import { fetchMovies } from '../../services/movieService';
 
-const emptyMovie: Movie = {
-  id: 0,
-  poster_path: '',
-  backdrop_path: '',
-  title: '',
-  overview: '',
-  release_date: '',
-  vote_average: 0,
-};
-
 export default function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
-  const [selectedMovie, setSelectedMovie] = useState<Movie>(emptyMovie);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [isMovieModalOpen, setIsMovieModalOpen] = useState(false);
-
-  const openMovieModal = () => setIsMovieModalOpen(true);
 
   const closeMovieModal = () => {
-    setIsMovieModalOpen(false);
-    setSelectedMovie(emptyMovie);
+    setSelectedMovie(null);
   };
 
   const handleSearch = async (query: string) => {
@@ -55,9 +41,8 @@ export default function App() {
     }
   };
 
-  const handelSelectMovie = (movie: Movie) => {
+  const handleSelectMovie = (movie: Movie) => {
     setSelectedMovie(movie);
-    openMovieModal();
   };
 
   return (
@@ -68,12 +53,12 @@ export default function App() {
         {isError ? (
           <ErrorMessage />
         ) : (
-          movies.length >= 0 && (
-            <MovieGrid onSelect={handelSelectMovie} movies={movies} />
+          movies.length > 0 && (
+            <MovieGrid onSelect={handleSelectMovie} movies={movies} />
           )
         )}
         {isLoading && <Loader />}
-        {isMovieModalOpen && (
+        {selectedMovie && (
           <MovieModal
             onClose={closeMovieModal}
             movie={selectedMovie}

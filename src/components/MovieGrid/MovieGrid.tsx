@@ -6,7 +6,7 @@ interface MovieGridProps {
   movies: Movie[];
 }
 
-export default function VoteOptions({ onSelect, movies }: MovieGridProps) {
+export default function MovieGrid({ onSelect, movies }: MovieGridProps) {
   return (
     <ul className={css.grid}>
       {movies.map(movie => (

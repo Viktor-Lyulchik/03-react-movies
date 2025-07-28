@@ -9,7 +9,13 @@ interface MovieModalProps {
 }
 
 export default function MovieModal({
-  movie: { backdrop_path, title, overview, release_date, vote_average },
+  movie: {
+    backdrop_path = '',
+    title = '',
+    overview = '',
+    release_date = '',
+    vote_average = 0,
+  },
   onClose,
 }: MovieModalProps) {
   const handleBackdropClick = (event: React.MouseEvent<HTMLDivElement>) => {
